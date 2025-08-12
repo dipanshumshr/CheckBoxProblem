@@ -7,7 +7,7 @@ function Children({oncheck , data})
         oncheck(e, id)
     }
 
-    return <input type="checkbox" checked={data.checked} onChange={(e) => handleChange(e , data.id)}/>
+    return <input type="checkbox" checked = {data.checked} onChange={(e) => handleChange(e , data.id)}/>
 }
 
 export default Children
