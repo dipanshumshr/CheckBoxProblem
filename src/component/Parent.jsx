@@ -5,7 +5,7 @@ import { useReducer } from "react";
 
 export function Parent() {
     const [parentCheck, setParentCheck] = useState(false)
-    const [checkChildren, setChildren] = useState(useState([
+    const [checkChildren, setChildren] = useState([
         { id: nanoid(5), checked: false, subChildren: [] },
         {
             id: nanoid(5),
@@ -15,27 +15,29 @@ export function Parent() {
                 { id: nanoid(5), checked: false }
             ]
         }
-    ]))
+    ])
 
     useEffect(() => {
+          let allChecked = true;
+
     for (let i = 0; i < checkChildren.length; i++) {
         const child = checkChildren[i];
         if (child.subChildren) {
             for (let j = 0; j < child.subChildren.length; j++) {
                 if (!child.subChildren[j].checked) {
-                    setParentCheck(false);
+                     allChecked = false;
                     return
                 }
             }
             if (!child.checked) {
-                setParentCheck(false)
+                  allChecked = false;
             }
         } else if (!child.checked) {
-            setParentCheck(false)
+              allChecked = false;
         }
     }
 
-    setParentCheck(true);
+    setParentCheck(allChecked);
 }, [checkChildren]);
 
     function handleParent(e) {
@@ -64,7 +66,7 @@ export function Parent() {
         setChildren(prev => prev.map(child => {
             if (isSub && child.id === parentId) {
                 const updatedSubs = child.subChildren.map(sub =>
-                    sub.id === id ? { ...sub, checked: boolean } : sub
+                    isSub.id === id ? { ...sub, checked: boolean } : sub
                 );
                 let parentChecked = true;
                 for (let i = 0; i < updatedSubs.length; i++) {
